@@ -1,6 +1,24 @@
-*.class
-
-# Package Files #
+# built application files
+*.ap_
+*.cfg
 *.jar
 *.war
 *.ear
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+assets/*
+.settings/*
+
+# Local configuration file (sdk path, etc)
+local.properties
+.classpath
+*.dropbox
+*.project

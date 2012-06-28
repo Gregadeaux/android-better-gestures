@@ -18,8 +18,7 @@ package com.deaux.gestures;
 
 import android.view.View;
 
-public interface PinchGestureListener {
+public interface SwipeGestureListener {
 
-	public abstract void onPinch(View v, float ratio);
-	
+	public abstract void onSwipe(View v, float velocity);
 }

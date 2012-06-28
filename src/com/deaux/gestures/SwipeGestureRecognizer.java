@@ -21,17 +21,17 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.View.OnTouchListener;
 
-public class PanGestureRecognizer implements OnTouchListener {
+public class SwipeGestureRecognizer implements OnTouchListener {
 
 	private View view;
-	private PanGestureListener listener;
-	private VelocityTracker tracker;
 	private float pressY;
 	private float pressX;
 	private float lastY;
 	private float lastX;
+	private VelocityTracker tracker;
+	private SwipeGestureListener listener;
 	
-	public PanGestureRecognizer(View v, PanGestureListener listener) {
+	public SwipeGestureRecognizer(View v, SwipeGestureListener listener) {
 		this.view = v;
 		this.listener = listener;
 		this.view.setOnTouchListener(this);
@@ -48,24 +48,21 @@ public class PanGestureRecognizer implements OnTouchListener {
 			pressX = event.getRawX();
 			break;
 		case MotionEvent.ACTION_UP:
-			tracker.computeCurrentVelocity(1000);
-			listener.onLift(v, tracker.getXVelocity(), tracker.getYVelocity());
+			lastY = event.getRawY();
+			lastX = event.getRawX();
+			
+			if(Math.abs(pressX - lastX) > 100 && Math.abs(pressX - lastX) > Math.abs(pressY - lastY)) {
+				tracker.computeCurrentVelocity(1000);
+				listener.onSwipe(v, tracker.getXVelocity());
+			}
+			
 			tracker.recycle();
 			break;
 		case MotionEvent.ACTION_MOVE:
 			tracker.addMovement(event);
-			lastY = event.getRawY();
-			lastX = event.getRawX();
-
-			listener.onPan(v, lastY-pressY, lastX-pressX);
 			break;
 		}
 		return false;
-	}
-	
-	public void resetReference() {
-		pressY = lastY;
-		pressX = lastX;
 	}
 
 }
